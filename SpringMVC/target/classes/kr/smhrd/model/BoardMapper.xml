@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- BoardMapper인터페이스에서 사용 할 수 있다는 뜻 
+	이 페이지의 BoardMapper.xml을 말하는 것이 아님!!		-->
+<!-- new -> other -> mybatisXml로 만들것 -->
+<mapper namespace="kr.smhrd.model.BoardMapper">
+    
+    <!-- 게시판 목록보기 -->
+    <select id="boardList" resultType="kr.smhrd.model.BoardVO">
+        select * from tboard order by indate desc
+    </select>
+    
+    <!-- 게시판 글쓰기 -->
+    <insert id="boardInsert" parameterType="kr.smhrd.model.BoardVO">
+        insert into tboard(title, contents, writer)
+        values(#{title}, #{contents}, #{writer})
+    </insert>
+    
+    <!-- 게시판 글 열람  -->
+    <select id="boardContent" resultType="kr.smhrd.model.BoardVO">
+        select * from tboard where idx = #{idx}
+    </select>
+    
+    <!-- 게시글 카운터 증가 -->
+    <update id="count">
+        update tboard set count = count+1 where idx = #{idx}
+    </update>
+    
+    <!-- 게시판 글 수정 전 글 불러오기  -->
+    <select id = "boardUpdateForm" resultType="kr.smhrd.model.BoardVO">
+        select * from tboard where idx = #{idx}
+    </select>
+    
+    <!-- 게시판 글 수정 -->
+    <update id="boardUpdate" parameterType = "kr.smhrd.model.BoardVO">
+        update tboard set title = #{title} , contents = #{contents}
+        where idx = #{idx}
+    </update>
+    
+    <!-- 게시판 글 삭제 -->
+    <delete id="boardDelete">
+        delete from tboard where idx = #{idx}
+    </delete>
+    
+</mapper>
